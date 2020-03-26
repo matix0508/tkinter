@@ -3,7 +3,6 @@ import tkinter as tk
 LARGE_FONT = ("Verdana", 12)
 
 
-
 class SeaofBTCapp(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -17,17 +16,20 @@ class SeaofBTCapp(tk.Tk):
 
         self.frames = {}
 
-        frame = StartPage(container, self)
+        for F in (StartPage, PageOne, PageTwo):
 
-        self.frames[StartPage] = frame
+            frame = F(container, self)
 
-        frame.grid(row=0, column = 0, sticky="nsew")
+            self.frames[F] = frame
+
+            frame.grid(row=0, column = 0, sticky="nsew")
 
         self.show_frame(StartPage)
 
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
+
 
 class StartPage(tk.Frame):
 
@@ -36,8 +38,47 @@ class StartPage(tk.Frame):
         label = tk.Label(self, text="StartPage", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
 
-        button1 = tk.Button(self, text="Visit Page1")
+        button1 = tk.Button(self, text="Visit Page1",
+                            command=lambda: controller.show_frame(PageOne))
         button1.pack()
+
+        button2 = tk.Button(self, text="Visit Page2",
+                            command=lambda: controller.show_frame(PageTwo))
+        button2.pack()
+
+
+
+class PageOne(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Page One", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+
+        button1 = tk.Button(self, text="Visit Page Two",
+                            command=lambda: controller.show_frame(PageTwo))
+        button1.pack()
+
+        button2 = tk.Button(self, text="Back to Home",
+                            command=lambda: controller.show_frame(StartPage))
+        button2.pack()
+
+
+class PageTwo(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        label = tk.Label(self, text="Page Two", font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        button1 = tk.Button(self, text="Back to Home",
+                            command=lambda: controller.show_frame(StartPage))
+        button1.pack()
+
+        button2 = tk.Button(self, text="Visit Page One",
+                            command=lambda: controller.show_frame(PageOne))
+        button2.pack()
+
+
 
 
 app = SeaofBTCapp()
