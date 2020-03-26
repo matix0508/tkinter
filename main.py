@@ -36,6 +36,9 @@ class StartPage(tk.Frame):
         label = tk.Label(self, text="StartPage", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
 
+        button1 = tk.Button(self, text="Visit Page1")
+        button1.pack()
+
 
 app = SeaofBTCapp()
 app.mainloop()
