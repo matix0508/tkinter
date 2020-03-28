@@ -42,7 +42,7 @@ class CoronaVirus(tk.Tk):
 
         self.frames = {}
 
-        for F in (PageOne, GraphWorld, GraphPoland):
+        for F in (PageOne, GraphWorld, GraphPoland, GraphChina):
             frame = F(container, self)
 
             self.frames[F] = frame
@@ -54,7 +54,6 @@ class CoronaVirus(tk.Tk):
     def show_frame(self, cont):
         frame = self.frames[cont]
         frame.tkraise()
-
 
 
 class PageOne(tk.Frame):
@@ -74,7 +73,7 @@ class GraphWorld(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.name = "World"
-        label = ttk.Label(self, text="World", font=LARGE_FONT)
+        label = ttk.Label(self, text=self.name, font=LARGE_FONT)
         label.pack(pady=10, padx=10)
         button1 = ttk.Button(self, text="Back to Home",
                              command=lambda: controller.show_frame(PageOne))
@@ -87,6 +86,10 @@ class GraphWorld(tk.Frame):
         button3 = ttk.Button(self, text="Poland",
                              command=lambda: controller.show_frame(GraphPoland))
         button3.pack()
+
+        button4 = ttk.Button(self, text="China",
+                             command=lambda: controller.show_frame(GraphChina))
+        button4.pack()
 
         f = Figure(figsize=(5, 5), dpi=100)
         a = f.add_subplot(111)
@@ -108,7 +111,41 @@ class GraphPoland(tk.Frame):
     def __init__(self, parent, controller):
         tk.Frame.__init__(self, parent)
         self.name = "Poland"
-        label = ttk.Label(self, text="Poland", font=LARGE_FONT)
+        label = ttk.Label(self, text=self.name, font=LARGE_FONT)
+        label.grid(row=0, column=0)
+        button1 = ttk.Button(self, text="Back to Home",
+                             command=lambda: controller.show_frame(PageOne))
+        button1.grid(row=1, column=1)
+
+        button2 = ttk.Button(self, text="World",
+                             command=lambda: controller.show_frame(GraphWorld))
+        button2.grid(row=1, column=1)
+
+        button3 = ttk.Button(self, text="Poland",
+                             command=lambda: controller.show_frame(GraphPoland))
+        button3.grid(row=1, column=1)
+
+        button4 = ttk.Button(self, text="China",
+                             command=lambda: controller.show_frame(GraphChina))
+        button4.grid(row=1, column=1)
+
+        f = Figure(figsize=(5, 5), dpi=100)
+        a = f.add_subplot(111)
+        data = pd.read_csv("https://covid.ourworldindata.org/data/ecdc/total_cases.csv")
+        a.clear()
+        a.plot(data[self.name][data[self.name] != 0])
+
+        canvas = FigureCanvasTkAgg(f, self)
+        canvas.show()
+        canvas.get_tk_widget().grid(row=1, column=0)
+
+
+class GraphChina(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.name = "China"
+        label = ttk.Label(self, text=self.name, font=LARGE_FONT)
         label.pack(pady=10, padx=10)
         button1 = ttk.Button(self, text="Back to Home",
                              command=lambda: controller.show_frame(PageOne))
@@ -121,6 +158,10 @@ class GraphPoland(tk.Frame):
         button3 = ttk.Button(self, text="Poland",
                              command=lambda: controller.show_frame(GraphPoland))
         button3.pack()
+
+        button4 = ttk.Button(self, text="China",
+                             command=lambda: controller.show_frame(GraphChina))
+        button4.pack()
 
         f = Figure(figsize=(5, 5), dpi=100)
         a = f.add_subplot(111)
