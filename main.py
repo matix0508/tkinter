@@ -42,7 +42,7 @@ class CoronaVirus(tk.Tk):
 
         self.frames = {}
 
-        for F in (PageOne, GraphWorld, GraphPoland, GraphChina):
+        for F in (PageOne, GraphWorld, GraphPoland, GraphChina, GraphItaly, GraphUSA):
             frame = F(container, self)
 
             self.frames[F] = frame
@@ -62,6 +62,11 @@ class PageOne(tk.Frame):
         tk.Frame.__init__(self, parent)
         label = ttk.Label(self, text="Page One", font=LARGE_FONT)
         label.pack(pady=10, padx=10)
+
+        data = pd.read_csv("https://covid.ourworldindata.org/data/ecdc/total_cases.csv")
+
+        label2 = ttk.Label(self, text=f"last update: {data['date'][data.index[-1]]}", font=LARGE_FONT)
+        label2.pack(pady=10, padx=10)
 
         button1 = ttk.Button(self, text="See the graph",
                              command=lambda: controller.show_frame(GraphWorld))
@@ -91,6 +96,106 @@ class GraphWorld(tk.Frame):
                              command=lambda: controller.show_frame(GraphChina))
         button4.pack()
 
+        button5 = ttk.Button(self, text="Italy",
+                             command=lambda: controller.show_frame(GraphItaly))
+        button5.pack()
+
+        button6 = ttk.Button(self, text="USA",
+                             command=lambda: controller.show_frame(GraphUSA))
+        button6.pack()
+
+        f = Figure(figsize=(5, 5), dpi=100)
+        a = f.add_subplot(111)
+        data = pd.read_csv("https://covid.ourworldindata.org/data/ecdc/total_cases.csv")
+        a.clear()
+        a.plot(data[self.name][data[self.name] != 0])
+
+        canvas = FigureCanvasTkAgg(f, self)
+        canvas.show()
+        canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+
+        toolbar = NavigationToolbar2TkAgg(canvas, self)
+        toolbar.update()
+        canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+
+class GraphItaly(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.name = "Italy"
+        label = ttk.Label(self, text=self.name, font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        button1 = ttk.Button(self, text="Back to Home",
+                             command=lambda: controller.show_frame(PageOne))
+        button1.pack()
+
+        button2 = ttk.Button(self, text="World",
+                             command=lambda: controller.show_frame(GraphWorld))
+        button2.pack()
+
+        button3 = ttk.Button(self, text="Poland",
+                             command=lambda: controller.show_frame(GraphPoland))
+        button3.pack()
+
+        button4 = ttk.Button(self, text="China",
+                             command=lambda: controller.show_frame(GraphChina))
+        button4.pack()
+
+        button5 = ttk.Button(self, text="Italy",
+                             command=lambda: controller.show_frame(GraphItaly))
+        button5.pack()
+
+        button6 = ttk.Button(self, text="USA",
+                             command=lambda: controller.show_frame(GraphUSA))
+        button6.pack()
+
+        f = Figure(figsize=(5, 5), dpi=100)
+        a = f.add_subplot(111)
+        data = pd.read_csv("https://covid.ourworldindata.org/data/ecdc/total_cases.csv")
+        a.clear()
+        a.plot(data[self.name][data[self.name] != 0])
+
+        canvas = FigureCanvasTkAgg(f, self)
+        canvas.show()
+        canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+
+        toolbar = NavigationToolbar2TkAgg(canvas, self)
+        toolbar.update()
+        canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
+
+
+class GraphUSA(tk.Frame):
+
+    def __init__(self, parent, controller):
+        tk.Frame.__init__(self, parent)
+        self.name = "United States"
+        label = ttk.Label(self, text=self.name, font=LARGE_FONT)
+        label.pack(pady=10, padx=10)
+        button1 = ttk.Button(self, text="Back to Home",
+                             command=lambda: controller.show_frame(PageOne))
+        button1.pack()
+
+        button2 = ttk.Button(self, text="World",
+                             command=lambda: controller.show_frame(GraphWorld))
+        button2.pack()
+
+        button3 = ttk.Button(self, text="Poland",
+                             command=lambda: controller.show_frame(GraphPoland))
+        button3.pack()
+
+        button4 = ttk.Button(self, text="China",
+                             command=lambda: controller.show_frame(GraphChina))
+        button4.pack()
+
+        button5 = ttk.Button(self, text="Italy",
+                             command=lambda: controller.show_frame(GraphItaly))
+        button5.pack()
+
+        button6 = ttk.Button(self, text="USA",
+                             command=lambda: controller.show_frame(GraphUSA))
+        button6.pack()
+
         f = Figure(figsize=(5, 5), dpi=100)
         a = f.add_subplot(111)
         data = pd.read_csv("https://covid.ourworldindata.org/data/ecdc/total_cases.csv")
@@ -112,22 +217,30 @@ class GraphPoland(tk.Frame):
         tk.Frame.__init__(self, parent)
         self.name = "Poland"
         label = ttk.Label(self, text=self.name, font=LARGE_FONT)
-        label.grid(row=0, column=0)
+        label.pack(pady=10, padx=10)
         button1 = ttk.Button(self, text="Back to Home",
                              command=lambda: controller.show_frame(PageOne))
-        button1.grid(row=1, column=1)
+        button1.pack()
 
         button2 = ttk.Button(self, text="World",
                              command=lambda: controller.show_frame(GraphWorld))
-        button2.grid(row=1, column=1)
+        button2.pack()
 
         button3 = ttk.Button(self, text="Poland",
                              command=lambda: controller.show_frame(GraphPoland))
-        button3.grid(row=1, column=1)
+        button3.pack()
 
         button4 = ttk.Button(self, text="China",
                              command=lambda: controller.show_frame(GraphChina))
-        button4.grid(row=1, column=1)
+        button4.pack()
+
+        button5 = ttk.Button(self, text="Italy",
+                             command=lambda: controller.show_frame(GraphItaly))
+        button5.pack()
+
+        button6 = ttk.Button(self, text="USA",
+                             command=lambda: controller.show_frame(GraphUSA))
+        button6.pack()
 
         f = Figure(figsize=(5, 5), dpi=100)
         a = f.add_subplot(111)
@@ -137,7 +250,11 @@ class GraphPoland(tk.Frame):
 
         canvas = FigureCanvasTkAgg(f, self)
         canvas.show()
-        canvas.get_tk_widget().grid(row=1, column=0)
+        canvas.get_tk_widget().pack(side=tk.BOTTOM, fill=tk.BOTH, expand=True)
+
+        toolbar = NavigationToolbar2TkAgg(canvas, self)
+        toolbar.update()
+        canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
 class GraphChina(tk.Frame):
@@ -162,6 +279,14 @@ class GraphChina(tk.Frame):
         button4 = ttk.Button(self, text="China",
                              command=lambda: controller.show_frame(GraphChina))
         button4.pack()
+
+        button5 = ttk.Button(self, text="Italy",
+                             command=lambda: controller.show_frame(GraphItaly))
+        button5.pack()
+
+        button6 = ttk.Button(self, text="USA",
+                             command=lambda: controller.show_frame(GraphUSA))
+        button6.pack()
 
         f = Figure(figsize=(5, 5), dpi=100)
         a = f.add_subplot(111)
