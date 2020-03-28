@@ -10,23 +10,24 @@ from tkinter import ttk
 
 import pandas as pd
 
+# Fonts
 LARGE_FONT = ("Verdana", 12)
 style.use("ggplot")
 
 
-
+# doesn't work
 def animate(i):
     data = pd.read_csv("https://covid.ourworldindata.org/data/ecdc/total_cases.csv")
     a.clear()
     a.plot(data[loc][data[loc] != 0])
 
-
+# doesn't work either
 def change_name(new):
     data = pd.read_csv("https://covid.ourworldindata.org/data/ecdc/total_cases.csv")
     a.clear()
     a.plot(data[new][data[new] != 0])
 
-
+# root, core of a program
 class CoronaVirus(tk.Tk):
 
     def __init__(self, *args, **kwargs):
@@ -39,12 +40,12 @@ class CoronaVirus(tk.Tk):
         container.grid_rowconfigure(0, weight=1)
         container.grid_columnconfigure(0, weight=1)
 
-        self.frames = {}
+        self.frames = {} # here are all the pages
 
         for F in (PageOne, GraphWorld, GraphPoland, GraphChina, GraphItaly, GraphUSA):
             frame = F(container, self)
 
-            self.frames[F] = frame
+            self.frames[F] = frame # actually here but whatever
 
             frame.grid(row=0, column=0, sticky="nsew")
 
@@ -54,6 +55,7 @@ class CoronaVirus(tk.Tk):
         frame = self.frames[cont]
         frame.tkraise()
 
+# next few classes are different pages
 
 class PageOne(tk.Frame):
 
@@ -302,5 +304,6 @@ class GraphChina(tk.Frame):
         canvas._tkcanvas.pack(side=tk.TOP, fill=tk.BOTH, expand=True)
 
 
+# thanks to this it works :)
 app = CoronaVirus()
 app.mainloop()
